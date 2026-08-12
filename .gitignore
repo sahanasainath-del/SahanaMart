@@ -1,0 +1,5 @@
+.venv/
+__pycache__/
+*.pyc
+sahanamart.db
+create_admin.py

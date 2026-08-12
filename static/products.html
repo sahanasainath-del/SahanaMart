@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SahanaMart - Products</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        header {
+            background: #222;
+            color: white;
+            padding: 20px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .back {
+            background: white;
+            color: #222;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .product h3 {
+            margin-top: 0;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .stock {
+            color: #555;
+        }
+
+        #message {
+            text-align: center;
+            margin: 30px;
+            color: #666;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>SahanaMart</h1>
+
+    <button
+        class="back"
+        onclick="window.location.href='/static/admin.html'">
+
+        Back to Admin
+
+    </button>
+
+</header>
+
+
+<div class="container">
+
+    <h2>Available Products</h2>
+
+    <div id="products" class="products"></div>
+
+    <p id="message">
+        Loading products...
+    </p>
+
+</div>
+
+
+<script>
+
+    const token = localStorage.getItem("access_token");
+
+    // Check login
+
+    if (!token) {
+
+        window.location.href = "/";
+
+    }
+
+
+    async function loadProducts() {
+
+        try {
+
+            const response = await fetch(
+                "http://127.0.0.1:8000/products"
+            );
+
+            const products = await response.json();
+
+            const container =
+                document.getElementById("products");
+
+            const message =
+                document.getElementById("message");
+
+
+            if (products.length === 0) {
+
+                message.textContent =
+                    "No products available.";
+
+                return;
+
+            }
+
+
+            message.style.display = "none";
+
+
+            products.forEach(function(product) {
+
+                const card =
+                    document.createElement("div");
+
+                card.className = "product";
+
+
+                card.innerHTML = `
+
+                    <h3>${product.name}</h3>
+
+                    <p>
+                        ${product.description}
+                    </p>
+
+                    <div class="price">
+                        ₹${product.price}
+                    </div>
+
+                    <div class="stock">
+                        Stock: ${product.stock}
+                    </div>
+
+                `;
+
+
+                container.appendChild(card);
+
+            });
+
+        }
+
+        catch (error) {
+
+            document.getElementById("message").textContent =
+                "Unable to load products.";
+
+            console.error(error);
+
+        }
+
+    }
+
+
+    loadProducts();
+
+</script>
+
+
+</body>
+
+</html>
