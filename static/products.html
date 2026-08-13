@@ -2,90 +2,397 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SahanaMart - Products</title>
+    <title>SahanaMart | Shop</title>
 
     <style>
 
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
         }
 
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
+            background: #fff5f9;
+            color: #333;
         }
 
-        header {
-            background: #222;
-            color: white;
-            padding: 20px 40px;
+        /* =====================
+           NAVBAR
+        ===================== */
+
+        .navbar {
+            height: 70px;
+            background: white;
 
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+
+            padding: 0 50px;
+
+            box-shadow:
+                0 3px 15px
+                rgba(214, 51, 132, 0.12);
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        header h1 {
-            margin: 0;
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #d63384;
         }
 
-        .back {
-            background: white;
-            color: #222;
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-button {
             border: none;
-            padding: 10px 18px;
-            border-radius: 6px;
+            background: #fff0f6;
+            color: #d63384;
+
+            padding: 10px 15px;
+            border-radius: 20px;
+
             cursor: pointer;
+            font-weight: bold;
         }
+
+        .nav-button:hover {
+            background: #d63384;
+            color: white;
+        }
+
+        .cart {
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+
+            top: -8px;
+            right: -8px;
+
+            background: #d63384;
+            color: white;
+
+            width: 20px;
+            height: 20px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================
+           HERO
+        ===================== */
+
+        .hero {
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffd6e7,
+                    #f5a6c5
+                );
+
+            padding: 55px 30px;
+
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 40px;
+            color: #a61e5c;
+
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #7a3b56;
+            font-size: 17px;
+        }
+
+
+        /* =====================
+           SEARCH
+        ===================== */
+
+        .search-container {
+            max-width: 650px;
+
+            margin: -25px auto 30px;
+
+            position: relative;
+            z-index: 10;
+        }
+
+        #search {
+            width: 100%;
+
+            padding: 16px 20px;
+
+            border: none;
+
+            border-radius: 30px;
+
+            background: white;
+
+            font-size: 16px;
+
+            box-shadow:
+                0 5px 25px
+                rgba(214, 51, 132, 0.15);
+        }
+
+        #search:focus {
+            outline: 2px solid #d63384;
+        }
+
+
+        /* =====================
+           PRODUCTS
+        ===================== */
 
         .container {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 20px;
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 0 25px 50px;
         }
 
-        h2 {
+        .section-title {
+            color: #b82d70;
+
             margin-bottom: 25px;
+
+            font-size: 25px;
         }
 
-        .products {
+        .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
             gap: 20px;
         }
 
-        .product {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
 
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        /* =====================
+           PRODUCT CARD
+        ===================== */
+
+        .product-card {
+            background: white;
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 5px 20px
+                rgba(214, 51, 132, 0.10);
+
+            transition: 0.25s;
+
+            position: relative;
         }
 
-        .product h3 {
-            margin-top: 0;
+        .product-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 10px 30px
+                rgba(214, 51, 132, 0.18);
+        }
+
+        .product-image {
+            height: 180px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffe4ef,
+                    #ffc1d9
+                );
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 65px;
+        }
+
+        .wishlist {
+            position: absolute;
+
+            top: 12px;
+            right: 12px;
+
+            width: 35px;
+            height: 35px;
+
+            border-radius: 50%;
+
+            border: none;
+
+            background: white;
+
+            color: #d63384;
+
+            font-size: 20px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 3px 10px
+                rgba(0,0,0,0.1);
+        }
+
+        .wishlist.active {
+            background: #d63384;
+            color: white;
+        }
+
+        .product-info {
+            padding: 18px;
+        }
+
+        .product-name {
+            font-size: 18px;
+
+            font-weight: bold;
+
+            color: #444;
+
+            margin-bottom: 7px;
+        }
+
+        .description {
+            font-size: 13px;
+
+            color: #888;
+
+            min-height: 35px;
+
+            margin-bottom: 12px;
         }
 
         .price {
+            color: #d63384;
+
             font-size: 20px;
+
             font-weight: bold;
-            margin: 15px 0;
+
+            margin-bottom: 7px;
         }
 
         .stock {
-            color: #555;
+            font-size: 12px;
+
+            color: #198754;
+
+            margin-bottom: 12px;
         }
 
-        #message {
+        .add-cart {
+            width: 100%;
+
+            padding: 11px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #d63384;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .add-cart:hover {
+            background: #b82d70;
+        }
+
+        .add-cart:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+
+        /* =====================
+           EMPTY
+        ===================== */
+
+        .empty {
             text-align: center;
-            margin: 30px;
-            color: #666;
+
+            color: #999;
+
+            padding: 50px;
+
+            grid-column: 1 / -1;
+        }
+
+
+        /* =====================
+           RESPONSIVE
+        ===================== */
+
+        @media (max-width: 1100px) {
+
+            .products-grid {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .products-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+        }
+
+        @media (max-width: 450px) {
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
         }
 
     </style>
@@ -96,121 +403,548 @@
 <body>
 
 
-<header>
+<!-- =====================
+     NAVBAR
+===================== -->
 
-    <h1>SahanaMart</h1>
+<nav class="navbar">
 
-    <button
-        class="back"
-        onclick="window.location.href='/static/admin.html'">
+    <div class="logo">
+        SahanaMart 💗
+    </div>
 
-        Back to Admin
+    <div class="nav-right">
 
-    </button>
+        <button
+            class="nav-button cart"
+            onclick="showCart()">
 
-</header>
+            🛒 Cart
+
+            <span
+                class="cart-count"
+                id="cartCount">
+
+                0
+
+            </span>
+
+        </button>
+
+        <button
+            class="nav-button"
+            onclick="showWishlist()">
+
+            ❤️ Wishlist
+
+        </button>
+
+        <button
+            class="nav-button"
+            onclick="logout()">
+
+            Logout
+
+        </button>
+
+    </div>
+
+</nav>
 
 
-<div class="container">
 
-    <h2>Available Products</h2>
+<!-- =====================
+     HERO
+===================== -->
 
-    <div id="products" class="products"></div>
+<section class="hero">
 
-    <p id="message">
-        Loading products...
+    <h1>
+        Welcome to SahanaMart 💗
+    </h1>
+
+    <p>
+        Discover amazing products at great prices
     </p>
+
+</section>
+
+
+
+<!-- =====================
+     SEARCH
+===================== -->
+
+<div class="search-container">
+
+    <input
+        type="text"
+        id="search"
+        placeholder="🔍 Search products..."
+        oninput="searchProducts()">
 
 </div>
 
 
+
+<!-- =====================
+     PRODUCTS
+===================== -->
+
+<div class="container">
+
+    <h2 class="section-title">
+        Featured Products 🛍️
+    </h2>
+
+
+    <div
+        class="products-grid"
+        id="productsGrid">
+
+        <div class="empty">
+            Loading products...
+        </div>
+
+    </div>
+
+</div>
+
+
+
 <script>
 
-    const token = localStorage.getItem("access_token");
+    let products = [];
 
-    // Check login
+    let cart = [];
 
-    if (!token) {
+    let wishlist = [];
+
+
+    // =====================
+    // LOAD PRODUCTS
+    // =====================
+
+    async function loadProducts() {
+
+        try {
+
+            const response =
+                await fetch("/products");
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load products"
+                );
+
+            }
+
+
+            products =
+                await response.json();
+
+
+            displayProducts(products);
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+
+            document.getElementById(
+                "productsGrid"
+            ).innerHTML = `
+
+                <div class="empty">
+
+                    Unable to load products.
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+
+    // =====================
+    // DISPLAY PRODUCTS
+    // =====================
+
+    function displayProducts(list) {
+
+        const grid =
+            document.getElementById(
+                "productsGrid"
+            );
+
+
+        grid.innerHTML = "";
+
+
+        if (list.length === 0) {
+
+            grid.innerHTML = `
+
+                <div class="empty">
+
+                    No products found.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        list.forEach(
+            function(product) {
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "product-card";
+
+
+                const isWishlisted =
+                    wishlist.includes(
+                        product.id
+                    );
+
+
+                const outOfStock =
+                    product.stock <= 0;
+
+
+                card.innerHTML = `
+
+                    <div class="product-image">
+
+                        🛍️
+
+                    </div>
+
+
+                    <button
+                        class="wishlist ${
+                            isWishlisted
+                                ? "active"
+                                : ""
+                        }"
+                        onclick="
+                            toggleWishlist(
+                                ${product.id}
+                            )
+                        ">
+
+                        ${
+                            isWishlisted
+                                ? "♥"
+                                : "♡"
+                        }
+
+                    </button>
+
+
+                    <div class="product-info">
+
+                        <div class="product-name">
+
+                            ${product.name}
+
+                        </div>
+
+
+                        <div class="description">
+
+                            ${
+                                product.description ||
+                                "Great product from SahanaMart"
+                            }
+
+                        </div>
+
+
+                        <div class="price">
+
+                            ₹${product.price}
+
+                        </div>
+
+
+                        <div class="stock">
+
+                            ${
+                                outOfStock
+                                    ? "Out of stock"
+                                    : `${product.stock} available`
+                            }
+
+                        </div>
+
+
+                        <button
+                            class="add-cart"
+                            ${
+                                outOfStock
+                                    ? "disabled"
+                                    : ""
+                            }
+                            onclick="
+                                addToCart(
+                                    ${product.id}
+                                )
+                            ">
+
+                            ${
+                                outOfStock
+                                    ? "Out of Stock"
+                                    : "🛒 Add to Cart"
+                            }
+
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                grid.appendChild(card);
+
+            }
+        );
+
+    }
+
+
+
+    // =====================
+    // SEARCH
+    // =====================
+
+    function searchProducts() {
+
+        const search =
+            document.getElementById(
+                "search"
+            ).value.toLowerCase();
+
+
+        const filtered =
+            products.filter(
+                function(product) {
+
+                    return (
+
+                        product.name
+                            .toLowerCase()
+                            .includes(search)
+
+                        ||
+
+                        (
+                            product.description ||
+                            ""
+                        )
+                            .toLowerCase()
+                            .includes(search)
+
+                    );
+
+                }
+            );
+
+
+        displayProducts(filtered);
+
+    }
+
+
+
+    // =====================
+    // CART
+    // =====================
+
+    function addToCart(id) {
+
+        const product =
+            products.find(
+                function(item) {
+
+                    return item.id === id;
+
+                }
+            );
+
+
+        if (!product) {
+            return;
+        }
+
+
+        cart.push(product);
+
+
+        document.getElementById(
+            "cartCount"
+        ).textContent =
+            cart.length;
+
+
+        alert(
+            product.name +
+            " added to cart! 🛒"
+        );
+
+    }
+
+
+
+    function showCart() {
+
+        if (cart.length === 0) {
+
+            alert(
+                "Your cart is empty."
+            );
+
+            return;
+
+        }
+
+
+        let message =
+            "🛒 Your Cart\n\n";
+
+
+        cart.forEach(
+            function(product, index) {
+
+                message +=
+                    `${index + 1}. ` +
+                    `${product.name} - ₹${product.price}\n`;
+
+            }
+        );
+
+
+        alert(message);
+
+    }
+
+
+
+    // =====================
+    // WISHLIST
+    // =====================
+
+    function toggleWishlist(id) {
+
+        if (wishlist.includes(id)) {
+
+            wishlist =
+                wishlist.filter(
+                    function(item) {
+
+                        return item !== id;
+
+                    }
+                );
+
+        }
+
+        else {
+
+            wishlist.push(id);
+
+        }
+
+
+        displayProducts(products);
+
+    }
+
+
+
+    function showWishlist() {
+
+        if (wishlist.length === 0) {
+
+            alert(
+                "Your wishlist is empty ❤️"
+            );
+
+            return;
+
+        }
+
+
+        const names =
+            wishlist.map(
+                function(id) {
+
+                    const product =
+                        products.find(
+                            function(item) {
+
+                                return item.id === id;
+
+                            }
+                        );
+
+                    return product
+                        ? product.name
+                        : "";
+
+                }
+            );
+
+
+        alert(
+            "❤️ Wishlist\n\n" +
+            names.join("\n")
+        );
+
+    }
+
+
+
+    // =====================
+    // LOGOUT
+    // =====================
+
+    function logout() {
+
+        localStorage.removeItem(
+            "access_token"
+        );
+
+        localStorage.removeItem(
+            "role"
+        );
+
 
         window.location.href = "/";
 
     }
 
 
-    async function loadProducts() {
 
-        try {
-
-            const response = await fetch(
-                "http://127.0.0.1:8000/products"
-            );
-
-            const products = await response.json();
-
-            const container =
-                document.getElementById("products");
-
-            const message =
-                document.getElementById("message");
-
-
-            if (products.length === 0) {
-
-                message.textContent =
-                    "No products available.";
-
-                return;
-
-            }
-
-
-            message.style.display = "none";
-
-
-            products.forEach(function(product) {
-
-                const card =
-                    document.createElement("div");
-
-                card.className = "product";
-
-
-                card.innerHTML = `
-
-                    <h3>${product.name}</h3>
-
-                    <p>
-                        ${product.description}
-                    </p>
-
-                    <div class="price">
-                        ₹${product.price}
-                    </div>
-
-                    <div class="stock">
-                        Stock: ${product.stock}
-                    </div>
-
-                `;
-
-
-                container.appendChild(card);
-
-            });
-
-        }
-
-        catch (error) {
-
-            document.getElementById("message").textContent =
-                "Unable to load products.";
-
-            console.error(error);
-
-        }
-
-    }
-
+    // =====================
+    // START
+    // =====================
 
     loadProducts();
 

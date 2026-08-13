@@ -1,97 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SahanaMart - Login</title>
+
+    <title>SahanaMart | Login</title>
 
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            background: linear-gradient(135deg, #ffd6e7, #f5a6c5);
         }
 
-        .login-container {
-            width: 380px;
+        .login-card {
+            width: 420px;
             background: white;
-            padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+            padding: 40px;
+            border-radius: 22px;
+            box-shadow: 0 15px 40px rgba(160, 50, 100, 0.2);
         }
 
-        h1 {
+        .logo {
             text-align: center;
-            margin-bottom: 8px;
-            color: #222;
+            font-size: 34px;
+            font-weight: bold;
+            color: #d63384;
+            margin-bottom: 5px;
         }
 
-        .subtitle {
+        .tagline {
             text-align: center;
             color: #777;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
+            font-size: 14px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 22px;
+            color: #333;
+        }
+
+        .roles {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .role {
+            flex: 1;
+            padding: 13px 5px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            color: #555;
+            transition: 0.2s;
+        }
+
+        .role:hover {
+            border-color: #d63384;
+        }
+
+        .role.selected {
+            border-color: #d63384;
+            background: #fff0f6;
+            color: #d63384;
+        }
+
+        .role-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .selected-role {
+            text-align: center;
+            color: #d63384;
+            font-size: 14px;
+            margin-bottom: 18px;
+            font-weight: bold;
         }
 
         label {
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 7px;
             font-weight: bold;
+            color: #444;
         }
 
         input {
             width: 100%;
-            padding: 12px;
+            padding: 13px;
             margin-bottom: 18px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
             font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #d63384;
         }
 
         button {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             border: none;
-            border-radius: 6px;
-            background: #222;
+            border-radius: 9px;
+            background: #d63384;
             color: white;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
         }
 
         button:hover {
-            opacity: 0.85;
+            background: #b82d70;
         }
 
         #message {
-            margin-top: 15px;
             text-align: center;
+            margin-top: 15px;
             font-size: 14px;
+            min-height: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #aaa;
+            font-size: 12px;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="login-container">
+    <div class="login-card">
 
-        <h1>SahanaMart</h1>
+        <div class="logo">
+            SahanaMart
+        </div>
 
-        <p class="subtitle">
-            Admin Login
+        <p class="tagline">
+            Smart Shopping • Simple Management
         </p>
+
+        <h2>Welcome Back</h2>
+
+        <!-- ROLE SELECTION -->
+
+        <div class="roles">
+
+            <div class="role" data-role="BUYER">
+                <div class="role-icon">🛍️</div>
+                Buyer
+            </div>
+
+            <div class="role" data-role="SELLER">
+                <div class="role-icon">🏪</div>
+                Seller
+            </div>
+
+            <div class="role" data-role="ADMIN">
+                <div class="role-icon">👑</div>
+                Admin
+            </div>
+
+        </div>
+
+        <div class="selected-role" id="selectedRole">
+            Please select your role
+        </div>
+
+        <!-- LOGIN FORM -->
 
         <form id="loginForm">
 
-            <label>Email</label>
+            <label for="email">
+                Email
+            </label>
 
             <input
                 type="email"
@@ -100,7 +201,9 @@
                 required
             >
 
-            <label>Password</label>
+            <label for="password">
+                Password
+            </label>
 
             <input
                 type="password"
@@ -115,81 +218,260 @@
 
         </form>
 
-        <p id="message"></p>
+        <div id="message"></div>
+
+        <div class="footer">
+            © 2026 SahanaMart
+        </div>
 
     </div>
 
 
     <script>
 
-        const loginForm = document.getElementById("loginForm");
+        let selectedRole = null;
 
-        loginForm.addEventListener("submit", async function(event) {
 
-            event.preventDefault();
+        // -----------------------------
+        // ROLE SELECTION
+        // -----------------------------
 
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+        const roleButtons =
+            document.querySelectorAll(".role");
 
-            const message = document.getElementById("message");
 
-            try {
+        roleButtons.forEach(function(button) {
 
-                const response = await fetch(
-                    "http://127.0.0.1:8000/auth/login",
-                    {
-                        method: "POST",
+            button.addEventListener("click", function() {
 
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
+                roleButtons.forEach(function(item) {
 
-                        body: JSON.stringify({
-                            email: email,
-                            password: password
-                        })
-                    }
-                );
+                    item.classList.remove("selected");
 
-                const data = await response.json();
+                });
 
-                if (response.ok) {
 
-                    localStorage.setItem(
-                        "access_token",
-                        data.access_token
-                    );
+                button.classList.add("selected");
 
-                    localStorage.setItem(
-                        "role",
-                        data.role
-                    );
 
-                    message.textContent = "Login successful!";
+                selectedRole =
+                    button.dataset.role;
 
-                    setTimeout(function() {
-                        window.location.href = "/static/admin.html";
-                    }, 500);
 
-                } else {
+                document.getElementById(
+                    "selectedRole"
+                ).textContent =
+                    "Selected: " + selectedRole;
 
-                    message.textContent =
-                        data.detail || "Login failed.";
-
-                }
-
-            } catch (error) {
-
-                message.textContent =
-                    "Unable to connect to the server.";
-
-                console.error(error);
-
-            }
+            });
 
         });
+
+
+        // -----------------------------
+        // LOGIN
+        // -----------------------------
+
+        document
+            .getElementById("loginForm")
+            .addEventListener(
+                "submit",
+                async function(event) {
+
+                    event.preventDefault();
+
+
+                    const message =
+                        document.getElementById(
+                            "message"
+                        );
+
+
+                    const email =
+                        document.getElementById(
+                            "email"
+                        ).value;
+
+
+                    const password =
+                        document.getElementById(
+                            "password"
+                        ).value;
+
+
+                    // Check role
+
+                    if (!selectedRole) {
+
+                        message.style.color =
+                            "#dc3545";
+
+                        message.textContent =
+                            "Please select Buyer, Seller, or Admin.";
+
+                        return;
+
+                    }
+
+
+                    message.style.color = "#777";
+
+                    message.textContent =
+                        "Logging in...";
+
+
+                    try {
+
+                        // Call FastAPI
+
+                        const response =
+                            await fetch(
+                                "/auth/login",
+                                {
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body: JSON.stringify({
+                                        email: email,
+                                        password: password
+                                    })
+                                }
+                            );
+
+
+                        const data =
+                            await response.json();
+
+
+                        // Login failed
+
+                        if (!response.ok) {
+
+                            message.style.color =
+                                "#dc3545";
+
+                            message.textContent =
+                                data.detail ||
+                                "Invalid email or password.";
+
+                            return;
+
+                        }
+
+
+                        // Get actual role
+                        // from FastAPI
+
+                        const actualRole =
+                            data.role.toUpperCase();
+
+
+                        // Make sure selected role
+                        // matches database role
+
+                        if (
+                            actualRole !==
+                            selectedRole
+                        ) {
+
+                            message.style.color =
+                                "#dc3545";
+
+                            message.textContent =
+                                "This account is registered as " +
+                                actualRole +
+                                ", not " +
+                                selectedRole +
+                                ".";
+
+                            return;
+
+                        }
+
+
+                        // Save token
+
+                        localStorage.setItem(
+                            "access_token",
+                            data.access_token
+                        );
+
+
+                        localStorage.setItem(
+                            "role",
+                            actualRole
+                        );
+
+
+                        message.style.color =
+                            "#198754";
+
+                        message.textContent =
+                            "Login successful!";
+
+
+                        // Redirect
+
+                        setTimeout(
+                            function() {
+
+                                if (
+                                    actualRole ===
+                                    "ADMIN"
+                                ) {
+
+                                    window.location.href =
+                                        "/static/admin.html?v=2";
+                                }
+
+                                else if (
+                                    actualRole ===
+                                    "SELLER"
+                                ) {
+
+                                    window.location.href =
+                                        "/static/seller.html?v=2";
+
+                                }
+
+                                else if (
+                                      actualRole ===
+                                      "BUYER"
+                                ) {
+
+                                    window.location.href =
+                                        "/static/products.html?v=2";
+
+}
+
+                            },
+                            500
+                        );
+
+                    }
+
+
+                    catch (error) {
+
+                        console.error(error);
+
+                        message.style.color =
+                            "#dc3545";
+
+                        message.textContent =
+                            "Unable to connect to the server.";
+
+                    }
+
+                }
+            );
 
     </script>
 
 </body>
+
 </html>

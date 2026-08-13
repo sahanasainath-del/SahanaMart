@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SahanaMart | User Login</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffd6e7, #f8a8c4);
+        }
+
+        .login-card {
+            width: 400px;
+            background: white;
+            padding: 42px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(180, 60, 110, 0.2);
+        }
+
+        .logo {
+            text-align: center;
+            color: #d63384;
+            font-size: 34px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .tagline {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #444;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #d63384;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #d63384;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #b82d70;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .admin-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        .admin-link a {
+            color: #d63384;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="login-card">
+
+        <div class="logo">
+            SahanaMart
+        </div>
+
+        <p class="tagline">
+            Smart Shopping • Simple Management
+        </p>
+
+        <h2>Buyer Login</h2>
+
+        <form id="loginForm">
+
+            <label for="email">
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+            >
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                required
+            >
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+        <div id="message"></div>
+
+        <div class="admin-link">
+            Are you an administrator?
+            <a href="/">Admin Login</a>
+        </div>
+
+    </div>
+
+
+    <script>
+
+        document
+            .getElementById("loginForm")
+            .addEventListener("submit", async function(event) {
+
+                event.preventDefault();
+
+                const email =
+                    document.getElementById("email").value;
+
+                const password =
+                    document.getElementById("password").value;
+
+                const message =
+                    document.getElementById("message");
+
+                message.style.color = "#777";
+                message.textContent = "Logging in...";
+
+
+                try {
+
+                    const response = await fetch("/auth/login", {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+
+                    });
+
+
+                    const data = await response.json();
+
+
+                    if (response.ok) {
+
+                        message.style.color = "green";
+
+                        message.textContent =
+                            "Login successful!";
+
+
+                        if (data.access_token) {
+
+                            localStorage.setItem(
+                                "access_token",
+                                data.access_token
+                            );
+
+                        }
+
+
+                        setTimeout(function() {
+
+                            window.location.href =
+                                "/static/products.html";
+
+                        }, 500);
+
+
+                    } else {
+
+                        message.style.color = "#dc3545";
+
+                        message.textContent =
+                            data.detail ||
+                            "Invalid email or password.";
+
+                    }
+
+                }
+
+                catch (error) {
+
+                    message.style.color = "#dc3545";
+
+                    message.textContent =
+                        "Unable to connect to the server.";
+
+                    console.error(error);
+
+                }
+
+            });
+
+    </script>
+
+</body>
+
+</html>
