@@ -1,3 +1,4 @@
+```python
 from pydantic import BaseModel
 
 
@@ -10,6 +11,12 @@ class LoginResponse(BaseModel):
     access_token: str
     token_type: str
     role: str
+
+
+class RegisterRequest(BaseModel):
+    name: str
+    email: str
+    password: str
 
 
 class ProductCreate(BaseModel):
@@ -29,3 +36,4 @@ class ProductResponse(BaseModel):
 
     class Config:
         from_attributes = True
+```
