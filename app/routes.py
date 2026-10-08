@@ -1,3 +1,4 @@
+```python
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -6,13 +7,57 @@ from .models import User, Product, Seller
 from .schemas import (
     LoginRequest,
     LoginResponse,
+    RegisterRequest,
     ProductCreate,
     ProductResponse
 )
-from .auth import verify_password, create_access_token
+from .auth import (
+    verify_password,
+    hash_password,
+    create_access_token
+)
 
 
 router = APIRouter()
+
+
+# -------------------------
+# BUYER REGISTRATION
+# -------------------------
+
+@router.post("/auth/register")
+def register(
+    register_data: RegisterRequest,
+    db: Session = Depends(get_db)
+):
+    # Check whether email already exists
+    existing_user = db.query(User).filter(
+        User.email == register_data.email
+    ).first()
+
+    if existing_user:
+        raise HTTPException(
+            status_code=400,
+            detail="Email already registered"
+        )
+
+    # Create new buyer account
+    new_user = User(
+        name=register_data.name,
+        email=register_data.email,
+        password=hash_password(register_data.password),
+        role="BUYER"
+    )
+
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
+    return {
+        "message": "Buyer account created successfully",
+        "user_id": new_user.id,
+        "role": new_user.role
+    }
 
 
 # -------------------------
@@ -64,7 +109,6 @@ def create_product(
     product_data: ProductCreate,
     db: Session = Depends(get_db)
 ):
-
     seller = db.query(Seller).first()
 
     if not seller:
@@ -96,7 +140,6 @@ def create_product(
 def get_products(
     db: Session = Depends(get_db)
 ):
-
     return db.query(Product).all()
 
 
@@ -109,7 +152,6 @@ def get_product(
     product_id: int,
     db: Session = Depends(get_db)
 ):
-
     product = db.query(Product).filter(
         Product.id == product_id
     ).first()
@@ -133,7 +175,6 @@ def update_product(
     product_data: ProductCreate,
     db: Session = Depends(get_db)
 ):
-
     product = db.query(Product).filter(
         Product.id == product_id
     ).first()
@@ -164,7 +205,6 @@ def delete_product(
     product_id: int,
     db: Session = Depends(get_db)
 ):
-
     product = db.query(Product).filter(
         Product.id == product_id
     ).first()
@@ -181,3 +221,4 @@ def delete_product(
     return {
         "message": "Product deleted successfully"
     }
+```
